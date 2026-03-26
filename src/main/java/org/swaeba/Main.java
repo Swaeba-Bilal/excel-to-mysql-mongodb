@@ -3,6 +3,7 @@ package org.swaeba;//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.swaeba.dao.UniversityDAO;
+import org.swaeba.dao.UniversityMongoDAO;
 import org.swaeba.model.University;
 import org.swaeba.util.ExcelReader;
 
@@ -13,7 +14,10 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
      List<University> list= ExcelReader.readExcel("universities.xlsx");
-        UniversityDAO.insertData(list);
+       //MYSQL
+        // UniversityDAO.insertData(list);
+        //MongoDB
+        UniversityMongoDAO.insertData(list);
         System.out.println("Data inserted successfully!");
     }
 }
