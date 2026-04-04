@@ -6,6 +6,7 @@ import org.bson.Document;
 import org.swaeba.config.MongoDBConnection;
 import org.swaeba.model.University;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UniversityMongoDAO {
@@ -14,6 +15,7 @@ public class UniversityMongoDAO {
         try {
             MongoDatabase db= MongoDBConnection.getDatabase();
             MongoCollection<Document> collection=db.getCollection("universities");
+            List<Document> docs = new ArrayList<>();
             for(University u:list){
                 Document doc= new Document("id",u.getId())
                         .append("name",u.getName())
@@ -23,12 +25,17 @@ public class UniversityMongoDAO {
                         .append("ranking",u.getRanking())
                         .append("fee",u.getFee())
                         .append("duration",u.getDuration());
-                collection.insertOne(doc);
+                docs.add(doc);
             }
+            collection.insertMany(docs);
             System.out.println("Data inserted into MongoDB!");
         }
-        catch (Exception e){
-            e.printStackTrace();
+        catch (Exception e) {
+            if (e.getMessage().contains("E11000")) {
+                System.out.println(" Duplicate data found. Skipping insert...");
+            } else {
+                System.err.println(" Error inserting into MongoDB: " + e.getMessage());
+            }
         }
     }
 }

@@ -15,9 +15,9 @@ public class Main {
     public static void main(String[] args) {
      List<University> list= ExcelReader.readExcel("universities.xlsx");
        //MYSQL
-        // UniversityDAO.insertData(list);
+         UniversityDAO.insertData(list);
         //MongoDB
         UniversityMongoDAO.insertData(list);
-        System.out.println("Data inserted successfully!");
+        System.out.println("Process completed (duplicates skipped if any).");
     }
 }

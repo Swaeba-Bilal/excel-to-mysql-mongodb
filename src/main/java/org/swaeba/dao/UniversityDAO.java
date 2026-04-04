@@ -11,7 +11,7 @@ public class UniversityDAO {
     public static void insertData(List<University> list){
         try {
             Connection con= DBConnection.getConnection();
-            String query = "INSERT INTO universities " +
+            String query = "INSERT IGNORE INTO universities " +
                     "(id, university_name, program, city, country, ranking, fee, duration_years) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps=con.prepareStatement(query);
@@ -24,9 +24,10 @@ public class UniversityDAO {
                 ps.setInt(6,u.getRanking());
                 ps.setInt(7,u.getFee());
                 ps.setInt(8,u.getDuration());
-                ps.executeUpdate();
+                ps.addBatch();
 
             }
+            ps.executeBatch();
             ps.close();
             con.close();
         }
