@@ -2,6 +2,7 @@ package org.swaeba.dao;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.InsertManyOptions;
 import org.bson.Document;
 import org.swaeba.config.MongoDBConnection;
 import org.swaeba.model.University;
@@ -27,7 +28,7 @@ public class UniversityMongoDAO {
                         .append("duration",u.getDuration());
                 docs.add(doc);
             }
-            collection.insertMany(docs);
+            collection.insertMany(docs, new InsertManyOptions().ordered(false));
             System.out.println("Data inserted into MongoDB!");
         }
         catch (Exception e) {
